@@ -29,7 +29,129 @@ This section serves as a strategic reference for capabilities, assets, and opera
 
 ### 2.1. Personal Context ("Who Am I?")
 
-*(Placeholder: Write your 1-paragraph mission statement here. It should define your "Trusted Authority" vision and your "AI for Income" goal.)*
+> This section is a collection of current public-facing bios and internal guiding prompts. It serves as a "single source of truth" for defining personal brand and operational preferences.
+
+#### 2.1.1. LinkedIn Headline (Public-Facing Identity)
+
+AI Implementation Strategist | Harvard Certified in Artificial Intelligence | Driving Business Transformation Through Results-Oriented Human-AI Collaboration | Remote-First
+
+#### 2.1.2. LinkedIn About (Public-Facing Narrative)
+
+Artificial Intelligence isn't just another fad; it's the fundamental reorganization of how value is created. It's not just another tool; it's the operating system for the future of business. Just as electricity once transformed factories into engines of progress, AI is now reshaping how solutions are developed, and how services are delivered, at a scale never before possible.
+
+We stand at the dawn of a new era.
+
+While most will automate their existing processes, pioneers will radically reimagine what's possible, and deploy previously inconceivable business models. Businesses that implement surface-level solutions will see incremental gains, while their foundations crumble beneath them. Only those with the courage to profoundly reinvent themselves, ahow they think, decide, and operate, will create a compounding advantage, and reign over the markets for decades to come.
+
+The distance between these two approaches isn't merely a performance gap. It's rapidly becoming an unbridgeable chasm separating tomorrow's icons from yesterday's cautionary tales.
+
+I didn't come this far to automate spreadsheets.
+
+I'm here to purposefully reinvent civilization —one implementation at a time.
+
+I'm looking to do previously impossible things, and do them extraordinarily well.
+
+My unique value lies at the intersection of strategic blitz execution and tactical precision:
+
+**Business Acumen:**
+
+25+ years of experience crafting and executing results-oriented strategies that translate complex challenges into tangible outcomes that boost the bottom line.
+
+**Technical Foundation:**
+
+Harvard CS50 certified and CS50AI in progress, developing expertise in state-of-the-art frameworks, strengthening my skills in Python, SQL, Data Science, Machine Learning, Generative AI, and Prompt Engineering.
+
+**Visionary Leadership:**
+
+Proven track record in digital transformation, technology adoption, and business process optimization, delivering measurable results through cross-functional leadership.
+
+**Human-Centered Design:**
+
+Deep understanding that successful AI implementation isn't about replacing humans. It's about amplifying what makes us human in the first place, and creating unprecedented value through carefully-orchestrated human-AI collaboration. It's about forging a world where AI handles the mundane, freeing us to find fulfillment in the transcendental.
+
+History rewards those with the courage to lead when the map is still being drawn.
+
+I possess the vision, the drive, the strategic foresight, and the technical skills to lead the charge and help 𝐲𝐨𝐮 make history!
+
+Are 𝐲𝐨𝐮 ready?
+
+#### 2.1.3. Upwork Profile Overview (Income Engine Pitch)
+
+***Note:** User-identified as "Terribly outdated!" It references only `Carl` and does not reflect the current, more advanced portfolio (IngePro, AI Refill). This is a high-priority item to update for "Job 1: The Income Engine."*
+
+I build intelligent, end-to-end ⪡𝗔𝗜 𝗮𝗽𝗽𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻𝘀⪢ and specialize in custom ⪡𝗥𝗔𝗚 𝗰𝗵𝗮𝘁𝗯𝗼𝘁𝘀⪢ that turn your data into a valuable, interactive resource.
+
+I have built a complete, full-stack AI knowledge-base assistant from the ground up.
+
+You can see it in my Portfolio, interact with it LIVE, and review the code in GitHub.
+
+This project proves my ability to handle the entire development lifecycle. Unlike purely academic developers, I bring 25+ years of real-world business and IT leadership experience to every project. This means I don't just write code; I build robust, scalable solutions that align with your business goals.
+
+My Core Technical Stack:
+
+      ➤ 𝗔𝗜/𝗠𝗟: Python, OpenAI API, LangChain, Pinecone, Embeddings, Pandas, Scikit-learn, PyTorch, TensorFlow.
+
+      ➤ 𝗙𝗿𝗼𝗻𝘁𝗲𝗻𝗱: Next.js, React, TypeScript
+
+     ➤ 𝗕𝗮𝗰𝗸𝗲𝗻𝗱: Node.js, Supabase (SQL), AWS
+
+Why clients prefer to work with me:
+
+      ⮕ 𝗖𝘂𝘀𝘁𝗼𝗺 𝗥𝗔𝗚 (𝗥𝗲𝘁𝗿𝗶𝗲𝘃𝗮𝗹-𝗔𝘂𝗴𝗺𝗲𝗻𝘁𝗲𝗱 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝗼𝗻) 𝗰𝗵𝗮𝘁𝗯𝗼𝘁𝘀: for your website or internal documents.
+
+      ⮕ 𝗜𝗻𝘁𝗲𝗴𝗿𝗮𝘁𝗶𝗻𝗴 𝗔𝗜 𝗺𝗼𝗱𝗲𝗹𝘀 via API into your existing applications.
+
+      ⮕ 𝗔𝘂𝘁𝗼𝗺𝗮𝘁𝗶𝗻𝗴 𝘄𝗼𝗿𝗸𝗳𝗹𝗼𝘄𝘀 with intelligent Python scripts.
+
+      ⮕ 𝐇𝐚𝐫𝐯𝐚𝐫𝐝 𝐔𝐧𝐢𝐯𝐞𝐫𝐬𝐢𝐭𝐲 𝐀𝐈 𝐂𝐫𝐞𝐝𝐞𝐧𝐭𝐢𝐚𝐥𝐬: CS50 & CS50AI certified.
+
+If you need a developer who can deliver a high-quality, production-ready AI solution and communicate fluently in both English and Spanish, let's connect now!
+
+#### 2.1.4. AI Master Prompt (Internal Operating Protocol)
+
+***Note:** User-identified as "Not very outdated. Does need some tweaking." The portfolio section is outdated (missing AI Refill, etc.) but the core preferences are correct.*
+
+Be brief, succinct, concise, to the point.
+
+I don't need a cheerleader.
+
+I need cold and brutal honesty.
+
+Don't give me answers built on assumptions.
+
+Give me hard facts from reliable sources.
+
+Prioritize clarity and high signal-to-noise ratio.
+
+Don't waste my time.
+
+I'm practical and action oriented.
+
+Deliver responses that are direct and actionable.
+
+I have a B.A. in Business Administration with minor in Finance, a B.A. in Economics, and a Masters in Economics.
+
+I'm confident, forward-looking, and ambitious.
+
+This year I completed Harvard's CS50x, CS50AI, and Professional Certificate in Computer Science for Artificial Intelligence. I continue studying Data Science and AI.
+
+My vision is to become an international Trusted Authority in Artificial Intelligence. Help me become it as soon as possible!
+
+My short term main goal is to use AI to make money, enough to be my primary source of income. All help towards this goal is required.
+
+My current portfolio has 2 projects:
+
+Carl, a RAG chatbot that emulates Carl Sagan persona, in production, public, live at: https://talktocarl.online
+
+IngePro, a construction productivity app with AI forecasting and AI insights, in production, with paying clients, behind a paywall, live at: https://ingepro.app
+
+My portfolio, still under construction, is live at: https://aidev.international
+
+Help me make it a "shut up and take my money" portfolio!
+
+I use a Mac Book Pro with Apple M1 Pro, Sequoia 15.6.
+
+And an iPhone 13, iOS 18.6.1
 
 ### 2.2. Studies Context (Current Status)
 
