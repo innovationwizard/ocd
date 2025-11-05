@@ -10,9 +10,11 @@ This inventory triages all active and "moonshot" project ideas against the prima
 
 | Project | Category | Status | Analysis (Based on *Strategic Review*) |
 | :--- | :--- | :--- | :--- |
+| **Latina Interiors AI** | Monetizable Contract | **Greenlight (Urgent)** | **New Project.** High-priority "Job 1" project. Meeting on Thursday. Requires an instant prototype/deliverable. |
+| **Handover Document Prompt** | Strategic Project / Resource | **Greenlight (Urgent)** | A meta-project to create a high-quality, consistent prompt for AI conversation handovers. |
 | **BITS (Standalone Product)** | Monetizable Product | **Greenlight** | **New Product.** Productizes an existing asset (the 7 `AI Refill` dashboards) for "Job 1". |
 | **BITS (Tragaldabas Feature)** | Monetizable Contract | **Greenlight** | **New Scope.** Clarifies the "Tragaldabas" project: `Tragaldabas` (ingest/transform) + `BITS` (dashboards). |
-| **Portfolio Relaunch** | Strategic Project / Authority | **Greenlight (Urgent)** | A cornerstone of "Job 2." An abandoned portfolio (`aidev.international`) is a liability that negates authority. |
+| **Portfolio Relaunch** | Strategic Project / Authority | **Greenlight (Urgent)** | A cornerstone of "Job 2." An abandoned portfolio (`aidev.international`) is a liability. |
 | **Portfolio Maintenance** | Ongoing Habit / Authority | **Greenlight** | A recurring task to ensure the portfolio remains a high-value, current asset. |
 | **Context Documents (Project)** | Strategic Project / Resource | **Greenlight (Urgent)** | High-priority, ongoing project of critical importance for AI prompt effectiveness. |
 | **Context Docs (Deployment)** | Task / Authority Engine | **Greenlight** | The context docs are useless if not deployed to all relevant AI platforms. |
@@ -216,6 +218,12 @@ A comprehensive inventory of project assets, detailing the problem, solution, te
 * **Description:** A political prediction engine designed to forecast election winners for Mayors and Congressmen at the municipal level in Guatemala. The existing machine works, but is scheduled for a V2 upgrade to incorporate new learnings and enhance its predictive accuracy.
 * **Tech Stack:** (Placeholder)
 * **Strategic Fit:** A monetizable product ("Income Engine") to be leveraged through a specific client (Alvaro) *after* core income projects are stable (Yellow Light).
+
+---
+#### **Latina Interiors AI (Status: PROTOTYPE)**
+* **Description:** An AI-powered design consultation tool for a premium interior design firm. It solves their core business problem: 50% client drop-off after a 2-week manual design process. The tool will take client requirements (room, style, budget) and instantly generate high-fidelity mood boards, furniture suggestions, and concepts, eliminating the "A QUÉ HORA VOY A DISEÑAR" bottleneck.
+* **Tech Stack:** (Prototype: Next.js 14, Shadcn/UI. Production: Image generation models (DALL-E 3/Midjourney), RAG over furniture catalogs).
+* **Strategic Fit:** A high-priority, urgent "Income Engine" project that directly solves a critical, time-sensitive business need for a new client. (Greenlight - Urgent).
 
 ---
 #### **BITS (Standalone Product) (Status: PLANNING)**
