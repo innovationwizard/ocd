@@ -21,6 +21,7 @@ interface ProjectSummary {
 export default function CleanPage() {
   const [items, setItems] = useState<InboxItem[]>([])
   const [projects, setProjects] = useState<ProjectSummary[]>([])
+  const [currentItemId, setCurrentItemId] = useState<string | null>(null)
   const [loadingItems, setLoadingItems] = useState(true)
   const [loadingProjects, setLoadingProjects] = useState(true)
   const [assigning, setAssigning] = useState(false)
@@ -43,6 +44,18 @@ export default function CleanPage() {
       if (!response.ok) throw new Error("Failed to load inbox")
       const data: InboxItem[] = await response.json()
       setItems(data)
+      
+      // Set the first item as current if no current item is selected
+      setCurrentItemId((prevId) => {
+        if (data.length > 0 && !prevId) {
+          return data[0].id
+        }
+        // If current item is no longer in the list, reset to first item
+        if (prevId && !data.find(item => item.id === prevId)) {
+          return data.length > 0 ? data[0].id : null
+        }
+        return prevId
+      })
     } catch (error) {
       console.error(error)
     } finally {
@@ -64,12 +77,20 @@ export default function CleanPage() {
     }
   }
 
-  const currentItem = useMemo(() => items[0] ?? null, [items])
+  const currentItem = useMemo(() => {
+    if (!currentItemId) return items[0] ?? null
+    return items.find(item => item.id === currentItemId) ?? items[0] ?? null
+  }, [items, currentItemId])
 
   useEffect(() => {
     setConfirmation(null)
     setInstructions(currentItem?.routingNotes ?? "")
   }, [currentItem?.id, currentItem?.routingNotes])
+
+  function handleSelectItem(itemId: string) {
+    setCurrentItemId(itemId)
+    setConfirmation(null)
+  }
 
   async function handleAssign(projectId: string, options?: { skipGuard?: boolean }) {
     if (!currentItem || (assigning && !options?.skipGuard)) return
@@ -97,6 +118,14 @@ export default function CleanPage() {
       // Refetch items from server to get the actual current state
       // The item's status may have changed from INBOX to TODO or ON_HOLD
       await fetchItems()
+      
+      // Move to next item if available
+      const remainingItems = items.filter(item => item.id !== currentItem?.id)
+      if (remainingItems.length > 0) {
+        setCurrentItemId(remainingItems[0].id)
+      } else {
+        setCurrentItemId(null)
+      }
       
       // Clear confirmation after a short delay
       setTimeout(() => {
@@ -289,10 +318,57 @@ export default function CleanPage() {
           )}
         </section>
 
-        {items.length > 1 && (
-          <p className="text-xs text-slate-400">
-            {items.length - 1} additional item{items.length - 1 === 1 ? "" : "s"} waiting to be routed.
-          </p>
+        {/* Backlog of all items */}
+        {items.length > 0 && (
+          <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="text-xs font-semibold text-slate-600">
+              Backlog ({items.length} item{items.length === 1 ? "" : "s"} waiting to route):
+            </p>
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {items.map((item, index) => {
+                const isCurrent = item.id === currentItemId
+                const capturedByLabel = item.capturedBy?.email 
+                  ? item.capturedBy.email.split("@")[0] 
+                  : "Creator"
+                
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleSelectItem(item.id)}
+                    className={`w-full rounded-lg border p-3 text-left transition-colors ${
+                      isCurrent
+                        ? "border-slate-400 bg-white shadow-sm ring-2 ring-slate-300"
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-slate-400">
+                            #{index + 1}
+                          </span>
+                          {isCurrent && (
+                            <span className="rounded-full bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
+                              Current
+                            </span>
+                          )}
+                        </div>
+                        <h3 className={`mt-1 text-sm font-medium ${
+                          isCurrent ? "text-slate-900" : "text-slate-700"
+                        }`}>
+                          {item.title}
+                        </h3>
+                        <div className="mt-1 text-xs text-slate-500">
+                          by {capturedByLabel}
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
         )}
       </div>
     </div>

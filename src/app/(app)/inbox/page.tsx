@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 
 interface InboxItem {
@@ -16,15 +16,31 @@ interface InboxItem {
 export default function InboxPage() {
   const router = useRouter()
   const [items, setItems] = useState<InboxItem[]>([])
+  const [currentItemId, setCurrentItemId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const itemsRef = useRef<InboxItem[]>([])
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    itemsRef.current = items
+  }, [items])
 
   useEffect(() => {
-    void fetchItems()
+    void fetchItems(false) // Initial load with loading state
+    
+    // Poll for new items every 5 seconds (silent refresh)
+    const interval = setInterval(() => {
+      void fetchItems(true) // Silent refresh - no loading state
+    }, 5000)
+    
+    return () => clearInterval(interval)
   }, [])
 
-  async function fetchItems() {
-    setLoading(true)
+  async function fetchItems(silent = false) {
+    if (!silent) {
+      setLoading(true)
+    }
     try {
       const response = await fetch("/api/items?status=INBOX", {
         cache: "no-store"
@@ -33,30 +49,60 @@ export default function InboxPage() {
         throw new Error("Failed to load inbox")
       }
       const data: InboxItem[] = await response.json()
-      console.log(`[Inbox] Fetched ${data.length} items from server`)
-      console.log(`[Inbox] All items:`, data.map(item => ({
-        id: item.id,
-        title: item.title,
-        capturedBy: item.capturedBy?.email,
-        createdAt: item.createdAt,
-        status: 'INBOX' // All items should be INBOX since we filter by status=INBOX
-      })))
       
-      if (data.length === 0) {
-        console.warn(`[Inbox] No items found! This might indicate items were processed or there's a query issue.`)
-      } else if (data.length === 1) {
-        console.warn(`[Inbox] Only 1 item found. If more were captured, they may have been processed or there's a filtering issue.`)
+      if (!silent) {
+        console.log(`[Inbox] Fetched ${data.length} items from server`)
+        console.log(`[Inbox] All items:`, data.map(item => ({
+          id: item.id,
+          title: item.title,
+          capturedBy: item.capturedBy?.email,
+          createdAt: item.createdAt,
+          status: 'INBOX' // All items should be INBOX since we filter by status=INBOX
+        })))
+        
+        if (data.length === 0) {
+          console.warn(`[Inbox] No items found! This might indicate items were processed or there's a query issue.`)
+        } else if (data.length === 1) {
+          console.warn(`[Inbox] Only 1 item found. If more were captured, they may have been processed or there's a filtering issue.`)
+        }
+      }
+      
+      // Check if new items were added using ref to avoid stale closure
+      const previousItemIds = new Set(itemsRef.current.map(item => item.id))
+      const newItems = data.filter(item => !previousItemIds.has(item.id))
+      
+      if (newItems.length > 0) {
+        console.log(`[Inbox] ${newItems.length} new item(s) detected:`, newItems.map(item => item.title))
       }
       
       setItems(data)
+      
+      // Set the first item as current if no current item is selected
+      setCurrentItemId((prevId) => {
+        if (data.length > 0 && !prevId) {
+          return data[0].id
+        }
+        // If current item is no longer in the list, reset to first item
+        if (prevId && !data.find(item => item.id === prevId)) {
+          return data.length > 0 ? data[0].id : null
+        }
+        return prevId
+      })
     } catch (error) {
-      console.error("[Inbox] Error fetching items:", error)
+      if (!silent) {
+        console.error("[Inbox] Error fetching items:", error)
+      }
     } finally {
-      setLoading(false)
+      if (!silent) {
+        setLoading(false)
+      }
     }
   }
 
-  const currentItem = useMemo(() => items[0] ?? null, [items])
+  const currentItem = useMemo(() => {
+    if (!currentItemId) return items[0] ?? null
+    return items.find(item => item.id === currentItemId) ?? items[0] ?? null
+  }, [items, currentItemId])
 
   async function handleNotActionable() {
     if (!currentItem || submitting) return
@@ -79,6 +125,14 @@ export default function InboxPage() {
       // Refetch items from server to get the latest state
       // This ensures we see all items, including any new ones added while processing
       await fetchItems()
+      
+      // Move to next item if available
+      const remainingItems = items.filter(item => item.id !== currentItem?.id)
+      if (remainingItems.length > 0) {
+        setCurrentItemId(remainingItems[0].id)
+      } else {
+        setCurrentItemId(null)
+      }
     } catch (error) {
       console.error(error)
     } finally {
@@ -89,6 +143,10 @@ export default function InboxPage() {
   function handleActionable() {
     if (!currentItem || submitting) return
     router.push(`/clean?item=${currentItem.id}`)
+  }
+
+  function handleSelectItem(itemId: string) {
+    setCurrentItemId(itemId)
   }
 
   if (loading) {
@@ -182,27 +240,59 @@ export default function InboxPage() {
             </div>
         </section>
 
-        {items.length > 1 && (
-          <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-4">
+        {/* Backlog of all items */}
+        {items.length > 0 && (
+          <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
             <p className="text-xs font-semibold text-slate-600">
-              {items.length - 1} additional item
-              {items.length - 1 === 1 ? "" : "s"} waiting in inbox:
+              Backlog ({items.length} item{items.length === 1 ? "" : "s"} waiting):
             </p>
-            <ul className="space-y-1 text-xs text-slate-500">
-              {items.slice(1, 6).map((item) => (
-                <li key={item.id} className="flex items-center justify-between">
-                  <span className="truncate">{item.title}</span>
-                  <span className="ml-2 text-slate-400">
-                    {item.capturedBy?.email ? `by ${item.capturedBy.email.split("@")[0]}` : "by Creator"}
-                  </span>
-                </li>
-              ))}
-              {items.length > 6 && (
-                <li className="text-slate-400">
-                  ...and {items.length - 6} more
-                </li>
-              )}
-            </ul>
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {items.map((item, index) => {
+                const isCurrent = item.id === currentItemId
+                const capturedByLabel = item.capturedBy?.email 
+                  ? item.capturedBy.email.split("@")[0] 
+                  : "Creator"
+                const createdAt = new Date(item.createdAt).toLocaleString()
+                
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleSelectItem(item.id)}
+                    className={`w-full rounded-lg border p-3 text-left transition-colors ${
+                      isCurrent
+                        ? "border-slate-400 bg-white shadow-sm ring-2 ring-slate-300"
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-slate-400">
+                            #{index + 1}
+                          </span>
+                          {isCurrent && (
+                            <span className="rounded-full bg-slate-900 px-2 py-0.5 text-xs font-medium text-white">
+                              Current
+                            </span>
+                          )}
+                        </div>
+                        <h3 className={`mt-1 text-sm font-medium ${
+                          isCurrent ? "text-slate-900" : "text-slate-700"
+                        }`}>
+                          {item.title}
+                        </h3>
+                        <div className="mt-1 flex items-center gap-3 text-xs text-slate-500">
+                          <span>by {capturedByLabel}</span>
+                          <span>•</span>
+                          <span>{createdAt}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
           </div>
         )}
         
