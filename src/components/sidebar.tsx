@@ -9,7 +9,8 @@ import {
   Library,
   Home,
   LogOut,
-  User
+  User,
+  Brain
 } from "lucide-react"
 
 const navItems = [
@@ -32,12 +33,17 @@ export function Sidebar({ user }: SidebarProps) {
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r bg-white">
-      <div className="px-6 py-5">
-        <div className="text-sm font-semibold tracking-wide text-slate-500">
-          SSOT
-        </div>
-        <div className="text-lg font-semibold text-slate-900">
-          Single Source of Truth
+      <div className="flex items-center gap-3 px-6 py-5">
+        <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100">
+          <Brain className="h-6 w-6 text-slate-700" strokeWidth={1.5} />
+        </span>
+        <div>
+          <div className="text-sm font-semibold tracking-wide text-slate-500">
+            SSOT
+          </div>
+          <div className="text-lg font-semibold text-slate-900">
+            Single Source of Truth
+          </div>
         </div>
       </div>
 
