@@ -17,25 +17,40 @@ function isCreator(session: SessionWithRole | null): session is SessionWithRole 
 
 export async function GET() {
   const session = (await auth()) as SessionWithRole | null
+  
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+  
   if (!isCreator(session)) {
+    console.error("[Projects API] User is not CREATOR:", {
+      userId: session.user.id,
+      role: session.user.role
+    })
     return NextResponse.json({ error: "Forbidden" }, { status: 403 })
   }
 
-  const projects = await prisma.item.findMany({
-    where: {
-      createdByUserId: session.user.id,
-      type: ItemType.PROJECT
-    },
-    orderBy: { createdAt: "asc" },
-    select: {
-      id: true,
-      title: true,
-      status: true,
-      createdAt: true
-    }
-  })
+  try {
+    const projects = await prisma.item.findMany({
+      where: {
+        createdByUserId: session.user.id,
+        type: ItemType.PROJECT
+      },
+      orderBy: { createdAt: "asc" },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        createdAt: true
+      }
+    })
 
-  return NextResponse.json(projects)
+    console.log(`[Projects API] Found ${projects.length} projects for user ${session.user.id}`)
+    return NextResponse.json(projects)
+  } catch (error) {
+    console.error("[Projects API] Error fetching projects:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
 }
 
 export async function POST(request: NextRequest) {

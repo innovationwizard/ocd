@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   PenSquare,
   Filter,
@@ -13,6 +13,7 @@ import {
   Brain,
   Settings
 } from "lucide-react"
+import { signOut } from "next-auth/react"
 
 const navItems = [
   { href: "/capture", label: "Capture", icon: PenSquare },
@@ -32,6 +33,13 @@ interface SidebarProps {
 
 export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
+
+  async function handleSignOut() {
+    await signOut({ redirect: false })
+    router.push("/login")
+    router.refresh()
+  }
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r bg-white">
@@ -93,15 +101,14 @@ export function Sidebar({ user }: SidebarProps) {
             )}
           </div>
         </div>
-        <form action="/api/auth/signout" method="POST" className="mt-4">
-          <button
-            type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign out
-          </button>
-        </form>
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign out
+        </button>
       </div>
     </aside>
   )

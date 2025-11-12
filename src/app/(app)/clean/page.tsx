@@ -67,11 +67,21 @@ export default function CleanPage() {
     setLoadingProjects(true)
     try {
       const response = await fetch("/api/projects", { cache: "no-store" })
-      if (!response.ok) throw new Error("Failed to load projects")
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        console.error("[Clean] Failed to load projects:", response.status, errorData)
+        if (response.status === 403) {
+          console.error("[Clean] User is not CREATOR or not authorized")
+        } else if (response.status === 401) {
+          console.error("[Clean] User is not authenticated")
+        }
+        throw new Error(`Failed to load projects: ${response.status} ${errorData.error || ""}`)
+      }
       const data: ProjectSummary[] = await response.json()
+      console.log(`[Clean] Loaded ${data.length} projects`)
       setProjects(data)
     } catch (error) {
-      console.error(error)
+      console.error("[Clean] Error fetching projects:", error)
     } finally {
       setLoadingProjects(false)
     }
