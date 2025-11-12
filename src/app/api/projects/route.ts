@@ -22,10 +22,14 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
   
+  // Store user info before type guard check
+  const userId = session.user.id
+  const userRole = session.user.role
+  
   if (!isCreator(session)) {
     console.error("[Projects API] User is not CREATOR:", {
-      userId: session.user.id,
-      role: session.user.role
+      userId: userId || "unknown",
+      role: userRole || "unknown"
     })
     return NextResponse.json({ error: "Forbidden" }, { status: 403 })
   }
