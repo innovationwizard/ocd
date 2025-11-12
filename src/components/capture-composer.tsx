@@ -8,34 +8,54 @@ type QueueItem = {
   createdAt: string
 }
 
-type MinimalRecognitionAlternative = { transcript?: string }
-
-interface MinimalRecognitionResult {
-  readonly length: number
-  [index: number]: MinimalRecognitionAlternative | undefined
+// Minimal types for Web Speech API
+interface SpeechRecognitionAlternative {
+  transcript: string
+  confidence?: number
 }
 
-interface MinimalRecognitionEvent extends Event {
-  readonly results: {
-    readonly length: number
-    [index: number]: MinimalRecognitionResult | undefined
-  }
+interface SpeechRecognitionResult {
+  [index: number]: SpeechRecognitionAlternative
+  length: number
+  isFinal: boolean
+  item(index: number): SpeechRecognitionAlternative
 }
 
-interface MinimalRecognitionErrorEvent extends Event {
-  readonly error?: string
+interface SpeechRecognitionResultList {
+  [index: number]: SpeechRecognitionResult
+  length: number
+  item(index: number): SpeechRecognitionResult
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList
+  resultIndex: number
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string
+  message?: string
 }
 
 interface SpeechRecognitionInstance {
   lang: string
   interimResults: boolean
   maxAlternatives?: number
+  continuous?: boolean
   start: () => void
   stop: () => void
   abort: () => void
-  onresult: ((event: MinimalRecognitionEvent) => void) | null
-  onerror: ((event: MinimalRecognitionErrorEvent) => void) | null
+  onresult: ((event: SpeechRecognitionEvent) => void) | null
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null
   onend: (() => void) | null
+  onstart: (() => void) | null
+  onsoundstart: (() => void) | null
+  onsoundend: (() => void) | null
+  onspeechstart: (() => void) | null
+  onspeechend: (() => void) | null
+  onaudiostart: (() => void) | null
+  onaudioend: (() => void) | null
+  onnomatch: (() => void) | null
 }
 
 type SpeechRecognitionConstructor = new () => SpeechRecognitionInstance
@@ -161,38 +181,102 @@ export function CaptureComposer({ variant = "full" }: CaptureComposerProps) {
       recognition.maxAlternatives = 1
     }
 
-    recognition.onresult = (event: MinimalRecognitionEvent) => {
-      const { results } = event
-      let transcript = ""
-      for (let i = 0; i < results.length; i += 1) {
-        const result = results[i]
-        if (!result) continue
-        const alternative = result[0]
-        if (alternative?.transcript) {
-          transcript += alternative.transcript + " "
+    recognition.onresult = (event: any) => {
+      // Use any type for browser compatibility - different browsers implement the API slightly differently
+      const results = event.results
+      let newTranscript = ""
+      
+      // Process only new results (from resultIndex to end) to accumulate transcript
+      const startIndex = event.resultIndex ?? 0
+      for (let i = startIndex; i < results.length; i += 1) {
+        try {
+          // Access result - try array index first, then item method
+          const result = results[i] ?? (typeof results.item === "function" ? results.item(i) : null)
+          if (!result) continue
+          
+          // Access first alternative - try array index first, then item method
+          const alternative = result[0] ?? (typeof result.item === "function" ? result.item(0) : null)
+          if (alternative?.transcript) {
+            newTranscript += alternative.transcript + " "
+          }
+        } catch (error) {
+          console.warn("Error processing result at index", i, error)
         }
       }
-      liveTranscriptRef.current = transcript.trim()
+      
+      // Accumulate transcript (the API gives us all results each time, so we rebuild from scratch)
+      if (results.length > 0) {
+        let completeTranscript = ""
+        let hasFinalResult = false
+        for (let i = 0; i < results.length; i += 1) {
+          try {
+            const result = results[i] ?? (typeof results.item === "function" ? results.item(i) : null)
+            if (!result) continue
+            const alternative = result[0] ?? (typeof result.item === "function" ? result.item(0) : null)
+            if (alternative?.transcript) {
+              completeTranscript += alternative.transcript + " "
+            }
+            // Check if this is a final result
+            if (result.isFinal) {
+              hasFinalResult = true
+            }
+          } catch (error) {
+            // Skip this result
+          }
+        }
+        const trimmedTranscript = completeTranscript.trim()
+        if (trimmedTranscript) {
+          liveTranscriptRef.current = trimmedTranscript
+          console.log("Voice transcript:", trimmedTranscript, "| Results:", results.length, "| Has final:", hasFinalResult)
+        }
+      }
     }
 
-    recognition.onerror = (event: MinimalRecognitionErrorEvent) => {
-      console.warn("Voice capture error", event.error)
-      setVoiceStatus("Voice capture unavailable right now.")
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      console.error("Voice capture error", event.error, event.message)
+      setVoiceStatus(`Voice capture error: ${event.error}`)
       setIsRecording(false)
       skipClickRef.current = true
+      liveTranscriptRef.current = ""
     }
 
     recognition.onend = () => {
       setIsRecording(false)
-      const transcript = liveTranscriptRef.current.trim()
-      if (transcript) {
-        setInput((prev) =>
-          prev ? `${prev.trim()}\n${transcript}` : transcript
-        )
-      }
-      liveTranscriptRef.current = ""
+      
+      // Small delay to ensure final results are processed
+      setTimeout(() => {
+        const transcript = liveTranscriptRef.current.trim()
+        console.log("Voice recognition ended. Final transcript:", transcript)
+        
+        if (transcript) {
+          // Add transcript to input field
+          setInput((prev) => {
+            const updated = prev ? `${prev.trim()}\n${transcript}` : transcript
+            console.log("Setting input to:", updated)
+            return updated
+          })
+          setVoiceStatus("Transcript captured")
+          // Clear transcript after showing success message
+          setTimeout(() => {
+            liveTranscriptRef.current = ""
+            setVoiceStatus(null)
+          }, 1500)
+        } else {
+          console.warn("No transcript captured in onend")
+          setVoiceStatus("No speech detected")
+          setTimeout(() => setVoiceStatus(null), 2000)
+        }
+        
+        skipClickRef.current = true
+      }, 100) // Small delay to allow final onresult to process
+    }
+    
+    recognition.onnomatch = () => {
+      console.warn("No speech match found")
+      setVoiceStatus("No speech detected")
+      setIsRecording(false)
       skipClickRef.current = true
-      setVoiceStatus(null)
+      liveTranscriptRef.current = ""
     }
 
     recognitionRef.current = recognition
@@ -395,4 +479,5 @@ export function CaptureComposer({ variant = "full" }: CaptureComposerProps) {
     </div>
   )
 }
+
 
