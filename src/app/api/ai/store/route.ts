@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      integrationDecision: result.decision.integrationDecision,
+      integrationDecision: result.decision.integration_method === "CREATE_SECTION" ? "INTEGRATE" : "INTEGRATE",
       location: result.decision.integration_location,
       method: result.decision.integration_method,
       newSectionHeading: result.decision.integration_location?.startsWith("NEW_SECTION:")
