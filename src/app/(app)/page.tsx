@@ -14,6 +14,7 @@ interface Stats {
 }
 
 export default function HomePage() {
+  const router = useRouter()
   const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -63,6 +64,7 @@ export default function HomePage() {
           <Link
             href="/inbox"
             className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50"
+            prefetch={true}
           >
             <div className="flex items-center gap-3">
               <div className="rounded-lg bg-rose-100 p-2">
