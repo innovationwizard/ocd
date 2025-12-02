@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { Feedback } from "@prisma/client"
+import { Feedback, Swimlane, Priority } from "@prisma/client"
 
 export async function PATCH(
   request: NextRequest,
@@ -40,18 +40,18 @@ export async function PATCH(
   // If correcting, update the item with corrected values
   if (feedback === Feedback.CORRECTED && correction) {
     const updateData: {
-      swimlane?: string
-      priority?: string
+      swimlane?: Swimlane
+      priority?: Priority
       labels?: string[]
     } = {}
 
-    if (correction.swimlane) {
-      updateData.swimlane = correction.swimlane
+    if (correction.swimlane && Object.values(Swimlane).includes(correction.swimlane)) {
+      updateData.swimlane = correction.swimlane as Swimlane
     }
-    if (correction.priority) {
-      updateData.priority = correction.priority
+    if (correction.priority && Object.values(Priority).includes(correction.priority)) {
+      updateData.priority = correction.priority as Priority
     }
-    if (correction.labels) {
+    if (correction.labels && Array.isArray(correction.labels)) {
       updateData.labels = correction.labels
     }
 
