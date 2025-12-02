@@ -566,7 +566,7 @@ export async function calculateRewardForDecision(decision: DecisionWithItem): Pr
       components = {}
   }
 
-  const weights = REWARD_WEIGHTS[decision.agentType] || {}
+  const weights = (REWARD_WEIGHTS as Partial<Record<AgentType, Record<string, unknown>>>)[decision.agentType] || {}
   const reward = calculateTotalReward(components, weights)
 
   // Store breakdown for debugging
