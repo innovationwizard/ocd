@@ -63,8 +63,11 @@ export default function HomePage() {
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Link
             href="/inbox"
-            className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50"
+            className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 cursor-pointer"
             prefetch={true}
+            onClick={(e) => {
+              console.log("Inbox clicked, navigating...")
+            }}
           >
             <div className="flex items-center gap-3">
               <div className="rounded-lg bg-rose-100 p-2">
