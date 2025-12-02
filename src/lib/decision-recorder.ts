@@ -273,7 +273,7 @@ export function calculatePrioritizerReward(
   }
 
   // γ₄ * opportunity_cost (simplified - could be more sophisticated)
-  if (outcomeMetrics.opportunityCost) {
+  if (outcomeMetrics.opportunityCost && typeof outcomeMetrics.opportunityCost === "number") {
     components.opportunityCost = -gamma4 * outcomeMetrics.opportunityCost
   }
 
