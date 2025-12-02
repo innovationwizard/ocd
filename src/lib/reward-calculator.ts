@@ -548,19 +548,19 @@ export async function calculateRewardForDecision(decision: DecisionWithItem): Pr
 
   switch (decision.agentType) {
     case AgentType.FILER:
-      components = await calculateFilerRewardComponents(decision) as Record<string, unknown>
+      components = (await calculateFilerRewardComponents(decision)) as unknown as Record<string, unknown>
       break
     case AgentType.LIBRARIAN:
-      components = await calculateLibrarianRewardComponents(decision as Decision) as Record<string, unknown>
+      components = (await calculateLibrarianRewardComponents(decision as Decision)) as unknown as Record<string, unknown>
       break
     case AgentType.PRIORITIZER:
-      components = await calculatePrioritizerRewardComponents(decision as Decision) as Record<string, unknown>
+      components = (await calculatePrioritizerRewardComponents(decision as Decision)) as unknown as Record<string, unknown>
       break
     case AgentType.STORER:
-      components = await calculateStorerRewardComponents(decision as Decision) as Record<string, unknown>
+      components = (await calculateStorerRewardComponents(decision as Decision)) as unknown as Record<string, unknown>
       break
     case AgentType.RETRIEVER:
-      components = await calculateRetrieverRewardComponents(decision as Decision) as Record<string, unknown>
+      components = (await calculateRetrieverRewardComponents(decision as Decision)) as unknown as Record<string, unknown>
       break
     default:
       components = {}
