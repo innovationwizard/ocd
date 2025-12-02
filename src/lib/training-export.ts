@@ -125,8 +125,8 @@ export async function exportTrainingData(
     ex => ex.metadata.userFeedback === "IGNORED"
   ).length
 
-  const minReward = rewards.length > 0 ? Math.min(...rewards) : 0
-  const maxReward = rewards.length > 0 ? Math.max(...rewards) : 0
+  const calculatedMinReward = rewards.length > 0 ? Math.min(...rewards) : 0
+  const calculatedMaxReward = rewards.length > 0 ? Math.max(...rewards) : 0
 
   const stats: ExportStats = {
     count: trainingExamples.length,
@@ -134,12 +134,12 @@ export async function exportTrainingData(
     confirmedCount,
     correctedCount,
     ignoredCount,
-    minReward,
-    maxReward
+    minReward: calculatedMinReward,
+    maxReward: calculatedMaxReward
   }
 
   console.log(`Average reward: ${avgReward.toFixed(3)}`)
-  console.log(`Reward range: [${minReward.toFixed(3)}, ${maxReward.toFixed(3)}]`)
+  console.log(`Reward range: [${calculatedMinReward.toFixed(3)}, ${calculatedMaxReward.toFixed(3)}]`)
   console.log(`Confirmed: ${confirmedCount}/${trainingExamples.length} (${((100 * confirmedCount) / trainingExamples.length).toFixed(1)}%)`)
   console.log(`Corrected: ${correctedCount}/${trainingExamples.length} (${((100 * correctedCount) / trainingExamples.length).toFixed(1)}%)`)
   console.log(`Ignored: ${ignoredCount}/${trainingExamples.length} (${((100 * ignoredCount) / trainingExamples.length).toFixed(1)}%)`)
