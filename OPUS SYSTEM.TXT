@@ -83,7 +83,7 @@ STEP 4: CREATE (Deep Work):
 	Method: The user works on the one task. The system enforces the WIP=1 rule. 
 	System Action: The system guardrail prevents any other Item from being moved to the CREATING column. The system knows the Kanban method rules and educates the user when he tries to break any of the rules. These are educational messages only; user may dismiss them and continue breaking the rules. 
 
-STEP 5: PUBLISH:
+STEP 5: CURATE:
 	Job: The task is complete and VERIFIED BY AI in the background.
 	Optional Method (Automated): For code tasks, triggered by GitHub Webhooks: PR Opened: Webhook moves Item from CREATING to In Review. This frees the CREATING (WIP=1) slot. PR Merged: Webhook moves Item from In Review to Done.
 	Default Method (Manual): The user manually drags the Item from CREATING to Done.

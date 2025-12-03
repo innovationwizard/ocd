@@ -138,7 +138,7 @@ A rough draft exists at `opus system.txt` that outlines:
 - STEP 2: CLEAN (Clarify) → Create/On Hold/Compendium/Trash
 - STEP 3: CHOOSE (Manual Prioritization)
 - STEP 4: CREATE (Deep Work, WIP=1 enforced)
-- STEP 5: PUBLISH (Done - mentions integration with Opus Corpus)
+- STEP 5: CURATE (Done - mentions integration with Opus Corpus)
 - STEP 6: RETROSPECTIVE (Meta-improvements)
 
 **The REAL Question:**
@@ -147,7 +147,7 @@ The algorithms that happen **in between** - how things go from CAPTURE to the Op
 
 **Strategic Questions:**
 
-#### 4a. How does an Item transition from PUBLISH (Done) to becoming part of the Opus Corpus?
+#### 4a. How does an Item transition from CURATE (Done) to becoming part of the Opus Corpus?
 
 **Answer:**
 
@@ -336,7 +336,7 @@ The question to answer is very simple and direct: **"Is this actionable?"**
 - **Method:** The user works on the one task. The system enforces the WIP=1 rule on the CREATING column.
 - **System Action:** The system guardrail prevents any other Item from being moved to the CREATING column. The system knows the Kanban method rules and educates the user when they try to break any of the rules. These are educational messages only; user may dismiss them and continue breaking the rules.
 
-**STEP 5: PUBLISH**
+**STEP 5: CURATE**
 
 **Job:** The task is complete and VERIFIED BY AI in the background.
 
