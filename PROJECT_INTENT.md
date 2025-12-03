@@ -139,7 +139,7 @@ A rough draft exists at `opus system.txt` that outlines:
 - STEP 3: CHOOSE (Manual Prioritization)
 - STEP 4: CREATE (Deep Work, WIP=1 enforced)
 - STEP 5: CURATE (Done - mentions integration with Opus Corpus)
-- STEP 6: RETROSPECTIVE (Meta-improvements)
+- STEP 6: CRITIQUE (Meta-improvements)
 
 **The REAL Question:**
 
@@ -382,10 +382,10 @@ The question to answer is very simple and direct: **"Is this actionable?"**
 - **The progressive autonomy model (manual → AI suggests → AI decides) should start learning ASAP.**
 - This is where **AI Storer** fits in - learning how to intelligently integrate completed items into their corresponding opuses.
 
-**STEP 6: RETROSPECTIVE**
+**STEP 6: CRITIQUE**
 
 **AI-Driven Process:**
-- AI should be able to do the retrospective independently.
+- AI should be able to do the critique independently.
 - AI asks clarifying questions via new captured items to the user's inbox.
 - AI asks for any additional help it needs via new captured items to the user's inbox.
 
@@ -403,7 +403,7 @@ The question to answer is very simple and direct: **"Is this actionable?"**
 
 **Note:** AI Librarian has two distinct roles:
 1. **During CLEAN exit:** Assesses new items against Strategic Documents (opuses with `isStrategic = true`) for alignment with guiding principles (monetization and portfolio).
-2. **During RETROSPECTIVE:** Analyzes system performance and generates improvement suggestions.
+2. **During CRITIQUE:** Analyzes system performance and generates improvement suggestions.
 
 **Kanban Board Structure:**
 - **Single unified kanban board** showing all items.

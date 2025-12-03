@@ -31,7 +31,7 @@ All captured Items are Cleaned (Clarified) into one of three states:
 
 *Deep Work* (Read: Cal Newport): The core philosophy for the Create step. The system must be architected to protect the state of cognitive focus.
 
-*SCRUM* is a project management framework for teams to deliver value in increments. It is built on the idea of Sprints, which are fixed-length time-boxes, which conflicts with most of my system. The one element we adopt from SCRUM are "Restrospectives". The Retrospective is a reflection about the workflow itself. To review process, not projects. The goal is to generate Items for improving the system itself. This is the "meta-step" that allows for continuous improvement and evolution.
+*SCRUM* is a project management framework for teams to deliver value in increments. It is built on the idea of Sprints, which are fixed-length time-boxes, which conflicts with most of my system. The one element we adopt from SCRUM are "Restrospectives". The Critique is a reflection about the workflow itself. To review process, not projects. The goal is to generate Items for improving the system itself. This is the "meta-step" that allows for continuous improvement and evolution.
 
 
 (Personal note: I could be doing monetizable work right now, but instead I'm doing backoffice work. Not good. This is not the best use of my state of cognitive focus. The system should do the backoffice for me. As much as possible. All of it if possible.)
@@ -89,7 +89,7 @@ STEP 5: CURATE:
 	Default Method (Manual): The user manually drags the Item from CREATING to Done.
 	System Action: When status is set to Done, this update is integrated with the wisest and most strategically smart AI model available to the corresponding Opus Corpus Document, in the best possible manner.
 
-STEP 6: RETROSPECTIVE: 
+STEP 6: CRITIQUE: 
 	Job (The "Why"): To analyze the system's performance and identify actionable improvements to the workflow, rules, or AI implementations. 
 	Method (The "How"): A periodic (e.g., weekly) review of the system's throughput and friction points. You are not doing tasks; you are asking:
 		- Kanban Review: Look at your Done column. What was your throughput?
