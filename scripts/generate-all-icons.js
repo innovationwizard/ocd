@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 async function generateAllIcons() {
-  const svgPath = path.join(__dirname, '../public/message-circle-heart.svg');
+  const svgPath = path.join(__dirname, '../public/brain.svg');
   const publicDir = path.join(__dirname, '../public');
   
   // Read SVG
