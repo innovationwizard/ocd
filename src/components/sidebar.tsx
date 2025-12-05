@@ -7,7 +7,7 @@ import {
   Filter,
   Layout as LayoutIcon,
   Library,
-  Home,
+  Terminal,
   LogOut,
   User,
   Brain,
@@ -22,7 +22,7 @@ const navItems = [
   { href: "/workflow", label: "Create", icon: LayoutIcon },
   { href: "/library", label: "Compendium", icon: Library },
   { href: "/generate", label: "Compose", icon: Sparkles },
-  { href: "/", label: "Command Center", icon: Home }
+  { href: "/", label: "Console", icon: Terminal }
 ]
 
 interface SidebarProps {
