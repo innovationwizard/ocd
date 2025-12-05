@@ -129,7 +129,7 @@ export async function getGitStatus(repositoryPath: string): Promise<GitStatus> {
     
     return {
       success: true,
-      branch: status.current,
+      branch: status.current || undefined,
       ahead: status.ahead,
       behind: status.behind,
       staged: status.staged,
