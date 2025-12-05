@@ -12,7 +12,8 @@ import {
   User,
   Brain,
   Settings,
-  Sparkles
+  Sparkles,
+  BookOpen
 } from "lucide-react"
 import { signOut } from "next-auth/react"
 
@@ -20,6 +21,7 @@ const navItems = [
   { href: "/capture", label: "Capture", icon: PenSquare },
   { href: "/clean", label: "Clean", icon: Filter },
   { href: "/workflow", label: "Create", icon: LayoutIcon },
+  { href: "/opus", label: "Corpus", icon: BookOpen },
   { href: "/library", label: "Compendium", icon: Library },
   { href: "/generate", label: "Compose", icon: Sparkles },
   { href: "/", label: "Console", icon: Terminal }
