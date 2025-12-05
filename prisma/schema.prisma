@@ -184,6 +184,13 @@ model Opus {
   opusType        String    @default("PROJECT")         // Type of opus (references OpusTypeConfig.key)
   isStrategic     Boolean   @default(false)             // Contains guiding principles (monetization, portfolio)
   isDynamic       Boolean   @default(false)             // Requires on-demand customization (like Resume)
+  repositoryPath  String?                                // Local path to git repository (for CODEBASE opuses)
+  repositoryUrl   String?                                // Remote repository URL (e.g., GitHub)
+  autoCommit      Boolean   @default(false)             // Auto-commit on integration
+  autoPush        Boolean   @default(false)             // Auto-push after commit
+  lastCommitHash  String?                                // Last commit hash
+  lastCommitAt    DateTime?                             // Last commit timestamp
+  lastPushAt       DateTime?                             // Last push timestamp
   createdByUserId String
   createdBy       User      @relation("Opuses", fields: [createdByUserId], references: [id])
   items           Item[]                                 // Items tagged to this opus

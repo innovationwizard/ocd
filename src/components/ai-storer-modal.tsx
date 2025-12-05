@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { X, FileText, CheckCircle2, XCircle, Loader2, Edit } from "lucide-react"
+import { GitSyncModal } from "./git-sync-modal"
+import { generateCommitMessage } from "@/lib/git-sync"
 
 interface CompletedItem {
   id: string
@@ -19,6 +21,7 @@ interface Opus {
   name: string
   content: string
   opusType: string
+  repositoryPath?: string | null
 }
 
 interface StorerModalProps {
@@ -52,6 +55,7 @@ export function AIStorerModal({
   const [error, setError] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<"CONFIRMED" | "CORRECTED" | null>(null)
   const [editedContent, setEditedContent] = useState("")
+  const [showGitSync, setShowGitSync] = useState(false)
 
   useEffect(() => {
     if (isOpen && !suggestion) {
@@ -148,12 +152,18 @@ export function AIStorerModal({
 
       if (response.ok) {
         setFeedback("CONFIRMED")
-        setTimeout(() => {
-          onIntegrate()
-          onClose()
-          setSuggestion(null)
-          setFeedback(null)
-        }, 1000)
+        
+        // Check if opus is CODEBASE type and has repository path
+        if (opus.opusType === "CODEBASE" && opus.repositoryPath) {
+          setShowGitSync(true)
+        } else {
+          setTimeout(() => {
+            onIntegrate()
+            onClose()
+            setSuggestion(null)
+            setFeedback(null)
+          }, 1000)
+        }
       }
     } catch (err) {
       console.error("Failed to integrate:", err)
@@ -319,6 +329,41 @@ export function AIStorerModal({
           </div>
         )}
       </div>
+
+      {/* Git Sync Modal */}
+      {showGitSync && opus.repositoryPath && (
+        <GitSyncModal
+          opusId={opus.id}
+          repositoryPath={opus.repositoryPath}
+          itemTitle={item.title}
+          defaultCommitMessage={generateCommitMessage({
+            title: item.title,
+            rawInstructions: item.rawInstructions,
+            labels: item.labels,
+            cycleCount: item.cycleCount
+          })}
+          isOpen={showGitSync}
+          onClose={() => {
+            setShowGitSync(false)
+            setTimeout(() => {
+              onIntegrate()
+              onClose()
+              setSuggestion(null)
+              setFeedback(null)
+            }, 500)
+          }}
+          onComplete={(committed, pushed) => {
+            console.log(`Git sync: committed=${committed}, pushed=${pushed}`)
+            setShowGitSync(false)
+            setTimeout(() => {
+              onIntegrate()
+              onClose()
+              setSuggestion(null)
+              setFeedback(null)
+            }, 500)
+          }}
+        />
+      )}
     </div>
   )
 }

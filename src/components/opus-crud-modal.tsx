@@ -21,6 +21,10 @@ interface Opus {
   opusType: string
   isStrategic: boolean
   isDynamic: boolean
+  repositoryPath?: string | null
+  repositoryUrl?: string | null
+  autoCommit?: boolean
+  autoPush?: boolean
   createdAt: string
   updatedAt: string
   _count: {
@@ -53,7 +57,11 @@ export function OpusCrudModal({ isOpen, onClose, onSelect, filterType }: OpusCru
     raisonDetre: "",
     opusType: "PROJECT",
     isStrategic: false,
-    isDynamic: false
+    isDynamic: false,
+    repositoryPath: "",
+    repositoryUrl: "",
+    autoCommit: false,
+    autoPush: false
   })
   
   // Quick edit state for raison d'être
@@ -118,7 +126,11 @@ export function OpusCrudModal({ isOpen, onClose, onSelect, filterType }: OpusCru
       raisonDetre: "",
       opusType: selectedTypeFilter || "PROJECT",
       isStrategic: false,
-      isDynamic: false
+      isDynamic: false,
+      repositoryPath: "",
+      repositoryUrl: "",
+      autoCommit: false,
+      autoPush: false
     })
   }
 
@@ -131,7 +143,11 @@ export function OpusCrudModal({ isOpen, onClose, onSelect, filterType }: OpusCru
       raisonDetre: opus.raisonDetre || "",
       opusType: opus.opusType,
       isStrategic: opus.isStrategic,
-      isDynamic: opus.isDynamic
+      isDynamic: opus.isDynamic,
+      repositoryPath: opus.repositoryPath || "",
+      repositoryUrl: opus.repositoryUrl || "",
+      autoCommit: opus.autoCommit || false,
+      autoPush: opus.autoPush || false
     })
   }
   
@@ -173,7 +189,11 @@ export function OpusCrudModal({ isOpen, onClose, onSelect, filterType }: OpusCru
       raisonDetre: "",
       opusType: "PROJECT",
       isStrategic: false,
-      isDynamic: false
+      isDynamic: false,
+      repositoryPath: "",
+      repositoryUrl: "",
+      autoCommit: false,
+      autoPush: false
     })
   }
 
@@ -398,6 +418,62 @@ export function OpusCrudModal({ isOpen, onClose, onSelect, filterType }: OpusCru
                   <span className="text-sm text-slate-700">Dynamic</span>
                 </label>
               </div>
+
+              {/* Git Repository Fields (for CODEBASE opuses) */}
+              {formData.opusType === "CODEBASE" && (
+                <div className="space-y-4 p-4 border border-slate-200 rounded-md bg-slate-50">
+                  <h3 className="text-sm font-semibold text-slate-900">Git Repository Settings</h3>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      Repository Path
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.repositoryPath}
+                      onChange={(e) => setFormData({ ...formData, repositoryPath: e.target.value })}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 text-sm font-mono"
+                      placeholder="/Users/you/code/my-repo"
+                    />
+                    <p className="mt-1 text-xs text-slate-500">Local path to the git repository</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      Repository URL
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.repositoryUrl}
+                      onChange={(e) => setFormData({ ...formData, repositoryUrl: e.target.value })}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 text-sm"
+                      placeholder="https://github.com/you/repo"
+                    />
+                    <p className="mt-1 text-xs text-slate-500">Remote repository URL (e.g., GitHub)</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.autoCommit}
+                        onChange={(e) => setFormData({ ...formData, autoCommit: e.target.checked })}
+                        className="w-4 h-4 text-slate-600 border-slate-300 rounded focus:ring-slate-500"
+                      />
+                      <span className="text-sm text-slate-700">Auto-commit on integration</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.autoPush}
+                        onChange={(e) => setFormData({ ...formData, autoPush: e.target.checked })}
+                        className="w-4 h-4 text-slate-600 border-slate-300 rounded focus:ring-slate-500"
+                      />
+                      <span className="text-sm text-slate-700">Auto-push after commit</span>
+                    </label>
+                  </div>
+                </div>
+              )}
 
               <div className="flex gap-2 justify-end">
                 <button

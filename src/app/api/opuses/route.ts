@@ -34,6 +34,10 @@ export async function GET(request: NextRequest) {
       opusType: true,
       isStrategic: true,
       isDynamic: true,
+      repositoryPath: true,
+      repositoryUrl: true,
+      autoCommit: true,
+      autoPush: true,
       createdAt: true,
       updatedAt: true,
       _count: {
@@ -54,7 +58,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  const { name, content, raisonDetre, opusType, isStrategic, isDynamic } = await request.json()
+  const { 
+    name, 
+    content, 
+    raisonDetre, 
+    opusType, 
+    isStrategic, 
+    isDynamic,
+    repositoryPath,
+    repositoryUrl,
+    autoCommit,
+    autoPush
+  } = await request.json()
 
   if (!name || typeof name !== "string") {
     return NextResponse.json(
@@ -86,6 +101,10 @@ export async function POST(request: NextRequest) {
       opusType: opusType || "PROJECT",
       isStrategic: Boolean(isStrategic),
       isDynamic: Boolean(isDynamic),
+      repositoryPath: repositoryPath?.trim() || null,
+      repositoryUrl: repositoryUrl?.trim() || null,
+      autoCommit: Boolean(autoCommit),
+      autoPush: Boolean(autoPush),
       createdByUserId: session.user.id
     },
     select: {
@@ -96,6 +115,10 @@ export async function POST(request: NextRequest) {
       opusType: true,
       isStrategic: true,
       isDynamic: true,
+      repositoryPath: true,
+      repositoryUrl: true,
+      autoCommit: true,
+      autoPush: true,
       createdAt: true,
       updatedAt: true,
       _count: {

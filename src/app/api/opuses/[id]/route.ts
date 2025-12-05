@@ -26,6 +26,10 @@ export async function GET(
       opusType: true,
       isStrategic: true,
       isDynamic: true,
+      repositoryPath: true,
+      repositoryUrl: true,
+      autoCommit: true,
+      autoPush: true,
       createdAt: true,
       updatedAt: true,
       _count: {
@@ -54,7 +58,18 @@ export async function PATCH(
   }
 
   const { id } = await params
-  const { name, content, raisonDetre, opusType, isStrategic, isDynamic } = await request.json()
+  const { 
+    name, 
+    content, 
+    raisonDetre, 
+    opusType, 
+    isStrategic, 
+    isDynamic,
+    repositoryPath,
+    repositoryUrl,
+    autoCommit,
+    autoPush
+  } = await request.json()
 
   // Verify ownership
   const existing = await prisma.opus.findFirst({
@@ -75,6 +90,10 @@ export async function PATCH(
     opusType?: string
     isStrategic?: boolean
     isDynamic?: boolean
+    repositoryPath?: string | null
+    repositoryUrl?: string | null
+    autoCommit?: boolean
+    autoPush?: boolean
   } = {}
 
   if (name !== undefined) {
@@ -118,6 +137,22 @@ export async function PATCH(
     data.isDynamic = isDynamic
   }
 
+  if (repositoryPath !== undefined) {
+    data.repositoryPath = repositoryPath === "" ? null : repositoryPath
+  }
+
+  if (repositoryUrl !== undefined) {
+    data.repositoryUrl = repositoryUrl === "" ? null : repositoryUrl
+  }
+
+  if (typeof autoCommit === "boolean") {
+    data.autoCommit = autoCommit
+  }
+
+  if (typeof autoPush === "boolean") {
+    data.autoPush = autoPush
+  }
+
   const opus = await prisma.opus.update({
     where: { id },
     data,
@@ -129,6 +164,10 @@ export async function PATCH(
       opusType: true,
       isStrategic: true,
       isDynamic: true,
+      repositoryPath: true,
+      repositoryUrl: true,
+      autoCommit: true,
+      autoPush: true,
       createdAt: true,
       updatedAt: true,
       _count: {
