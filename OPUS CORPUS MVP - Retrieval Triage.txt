@@ -1,0 +1,166 @@
+
+## Opus Corpus MVP — Retrieval Triage
+
+### Core job
+
+Turn scattered, recently touched files across multiple folders into one analysis-ready working set with traceability and low noise.
+
+### Trigger
+
+User needs to analyze or deliver something now, but relevant files are scattered across known locations.
+
+### Inputs
+
+* Source roots:
+
+  * Desktop
+  * Documents
+  * Downloads
+* Date floor
+* Allowed file types
+* Excluded file types
+* Excluded folders
+* Hidden files yes/no
+* Project keywords
+* Exact tokens
+* Fuzzy phrases
+* Copy vs move
+* Preserve structure vs flatten
+* Duplicate handling
+* OCR yes/no
+* Manifest yes/no
+
+### Matching logic
+
+#### For text-like docs
+
+Supported:
+
+* pdf
+* docx
+* xlsx
+* pptx
+* txt
+* md
+* csv
+* html
+
+Match if any of:
+
+* filename/path matches project keyword
+* filename/path matches exact token
+* early extracted content matches project keyword
+* early extracted content matches exact token
+* early extracted content matches fuzzy phrase
+
+#### For image files
+
+Supported:
+
+* jpg
+* png
+
+Match only if:
+
+* filename/path matches project keyword
+
+### Required outputs
+
+* New working folder
+* Consolidated copies of matched files
+* No overwrite collisions
+* Optional preserved folder structure
+* Manifest with:
+
+  * copied path
+  * original path
+  * match reason
+* Optional inventory with:
+
+  * file list
+  * counts by type
+
+### Success criteria
+
+* Finds all or nearly all relevant files
+* Low enough noise that manual cleanup is fast
+* Originals remain untouched
+* User can begin analysis immediately
+* End-to-end run is predictable and auditable
+
+### Failure modes
+
+* False positives from short tokens like `PA`
+* Missed files due to weak filename/content extraction
+* PDF text unavailable because no embedded text
+* Noise from broad date range
+* Too much folder nesting
+* Duplicate filenames causing confusion
+* Generated/project folders polluting results
+
+### Required exclusions
+
+* hidden files/folders
+* generated folders:
+
+  * node_modules
+  * dist
+  * build
+  * coverage
+  * venv
+  * .venv
+  * **pycache**
+  * target
+  * out
+  * tmp
+  * temp
+  * cache
+
+### User decisions exposed in UI / CLI
+
+* date range
+* project list
+* exact tokens
+* phrase list
+* roots to scan
+* include images yes/no
+* inspect office/pdf contents yes/no
+* OCR yes/no
+* preserve structure yes/no
+* generate manifest yes/no
+
+## Best MVP positioning
+
+Not “knowledge management.”
+
+Better:
+**document retrieval triage for urgent analytical work**
+
+Or even sharper:
+**prepare the right working set before analysis starts**
+
+## Smallest sellable version
+
+1. Scan selected roots
+2. Filter by date/type
+3. Match by filename/path/content
+4. Copy into working folder
+5. Generate manifest
+6. Let user approve / prune
+
+## v2 features only if needed
+
+* OCR for scanned PDFs
+* scoring and ranking
+* saved project profiles
+* dedup by hash
+* semantic matching
+* auto-tagging
+* archive states
+* search across prior working sets
+
+Most important product lesson from today:
+**the value starts before analysis.**
+Your wedge is reducing pre-analysis chaos.
+
+I can turn this into a one-page product spec next.

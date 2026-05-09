@@ -1,0 +1,70 @@
+OPUS CORPUS DOCUMENTER RAISON DETRE.TXT
+
+Then the bottleneck is not your analysis. 
+
+It's your retrieval of documents under chaos.
+
+That is a real process lesson:
+
+Your system needed a fast document triage and consolidation layer, not better thinking.
+
+Best takeaway in one line:
+
+Build a repeatable intake workflow per project so scattered files never become the hard part again.
+
+Minimal durable fix:
+
+- one canonical inbox folder
+
+- one naming convention
+
+- one weekly consolidation command
+
+- one manifest/inventory generator
+
+- one “archive after analysis” rule
+
+The highest-ROI next move is to codify today’s rescue into reusable code, so next time this becomes a 30-second operation instead of a 30-minute scavenger hunt.
+
+-----
+
+This pain is strong evidence that **Opus Corpus solves a real problem you personally feel**. That is valuable.
+
+More importantly: the failure mode is specific and commercially credible:
+**high-value knowledge work breaks when capture, consolidation, and retrieval are weak.**
+
+That gives you three useful conclusions:
+
+1. **The product is not theoretical.**
+   You just lived the use case.
+
+2. **The MVP scope is probably smaller than the full vision.**
+   A strong first version may only need:
+
+   * multi-folder intake
+   * date/type/project filtering
+   * deduplicated consolidation
+   * manifest generation
+   * priority ordering
+   * archive / lifecycle states
+
+3. **This can be positioned around ROI, not personal knowledge management fluff.**
+   The pitch is closer to:
+   **“Reduce document retrieval chaos before analysis, reporting, or delivery work.”**
+
+Best strategic interpretation:
+Opus Corpus may be less “nice-to-have knowledge organizer” and more **work-prep infrastructure for high-value operators**.
+
+That is a much stronger category.
+
+The next useful move is to extract from today a brutally concrete MVP spec:
+
+* trigger
+* inputs
+* filters
+* matching logic
+* outputs
+* success criteria
+* failure modes
+
+I can draft that MVP spec tightly from this incident.
